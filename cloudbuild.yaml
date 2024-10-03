@@ -1,0 +1,14 @@
+steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['secrets', 'version', 'access', 'VERSION_ID', '--project=$PROJECT_ID', '--secret=MY_SECRET']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['secrets', 'version', 'access', 'VERSION_ID', '--project=$PROJECT_ID', '--secret=MY_OTHER_SECRET']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/nextjs-blog', '--build-arg', 'MY_SECRET=$MY_SECRET', '--build-arg', 'MY_OTHER_SECRET=$MY_OTHER_SECRET', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/nextjs-blog']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['run', 'deploy', 'nextjs-blog', '--image', 'gcr.io/$PROJECT_ID/nextjs-blog', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated', '--args', '--env-file=.env.prod']
+
+options:
+  substitution_option: ALLOW_LOOSE
