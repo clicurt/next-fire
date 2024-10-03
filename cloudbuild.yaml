@@ -1,10 +1,10 @@
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['secrets', 'version', 'access', 'VERSION_ID', '--project=$PROJECT_ID', '--secret=MY_SECRET']
+    args: ['secrets', 'version', 'access', 'VERSION_ID', '--project=$PROJECT_ID', '--secret=firebase_api_secret']
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['secrets', 'version', 'access', 'VERSION_ID', '--project=$PROJECT_ID', '--secret=MY_OTHER_SECRET']
+    args: ['secrets', 'version', 'access', 'VERSION_ID', '--project=$PROJECT_ID', '--secret=firebase_project_id']
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/nextjs-blog', '--build-arg', 'MY_SECRET=$MY_SECRET', '--build-arg', 'MY_OTHER_SECRET=$MY_OTHER_SECRET', '.']
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/nextjs-blog', '--build-arg', 'NEXT_PUBLIC_FIREBASE_API_KEY=$firebase_api_secret', '--build-arg', 'NEXT_PUBLIC_FIREBASE_PROJECT_ID=$firebase_project_id', '.']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/nextjs-blog']
   - name: 'gcr.io/cloud-builders/gcloud'
