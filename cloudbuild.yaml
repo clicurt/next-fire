@@ -15,10 +15,10 @@ steps:
       - >-
         $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
     id: Push
-  - name: node:10.15.1
+  - name: node:20.18.0
     entrypoint: npm
     args: ["install"]
-  - name: node:10.15.1
+  - name: node:20.18.0
     entrypoint: npm
     args: ["run", "create-env"]
     env:
